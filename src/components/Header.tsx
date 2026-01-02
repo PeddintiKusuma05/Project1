@@ -31,7 +31,13 @@ const Header = () => {
           </Link>
           {user ? (
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-3">
+              <Link
+                to={user.role === 'doctor' ? '/dashboard/doctor' : '/dashboard/patient'}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Dashboard
+              </Link>
+              <Link to="/profile" className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                   <User className="h-4 w-4 text-primary" />
                 </div>
@@ -39,7 +45,7 @@ const Header = () => {
                   <span className="text-sm font-medium text-foreground block">{user.name}</span>
                   <span className="text-xs text-muted-foreground capitalize">{user.role}</span>
                 </div>
-              </div>
+              </Link>
               <Button variant="ghost" size="sm" onClick={logout}>
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout

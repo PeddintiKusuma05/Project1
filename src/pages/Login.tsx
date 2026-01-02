@@ -41,7 +41,7 @@ const Login = () => {
     }
 
     if (login(email, password, role)) {
-      navigate('/');
+      navigate(role === 'doctor' ? '/dashboard/doctor' : '/dashboard/patient');
     } else {
       setError('Invalid email, password, or role');
     }

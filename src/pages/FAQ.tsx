@@ -4,6 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { Link } from 'react-router-dom';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 const FAQ = () => {
   const faqs = [
@@ -124,18 +127,61 @@ const FAQ = () => {
                   Can't find the answer you're looking for? Our support team is here to help.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a
-                    href="/contact-doctor"
+                  <Link
+                    to="/contact-doctor"
                     className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
                   >
                     Contact Doctor
-                  </a>
-                  <a
-                    href="mailto:doctorhelp@gmail.com"
-                    className="inline-flex items-center gap-2 px-6 py-3 border border-border rounded-lg hover:bg-accent transition-colors"
-                  >
-                    Email Support
-                  </a>
+                  </Link>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="inline-flex items-center gap-2 px-6 py-3 border border-border rounded-lg hover:bg-accent transition-colors"
+                      >
+                        Email Support
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Email Support</DialogTitle>
+                        <DialogDescription>
+                          Please mail your problem to the admin email below. Include as many details as possible so we can help quickly.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div className="p-3 rounded-md bg-accent text-foreground flex items-center justify-between">
+                          <span className="font-mono text-sm">peddintikusuma@gmail.com</span>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            onClick={() => navigator.clipboard.writeText('peddintikusuma@gmail.com')}
+                          >
+                            Copy
+                          </Button>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            className="flex-1"
+                            onClick={() => {
+                              const subject = encodeURIComponent('Support Request from Healix');
+                              const body = encodeURIComponent('Hello,\n\nI would like assistance with the following problem:\n\n[Describe your issue here]\n\nThanks,');
+                              window.location.href = `mailto:peddintikusuma@gmail.com?subject=${subject}&body=${body}`;
+                            }}
+                          >
+                            Open mail app
+                          </Button>
+                          <Button
+                            className="flex-1"
+                            variant="outline"
+                            onClick={() => navigator.clipboard.writeText('Hello,\n\nI would like assistance with the following problem:\n\n[Describe your issue here]\n\nThanks,')}
+                          >
+                            Copy message template
+                          </Button>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </CardContent>
             </Card>

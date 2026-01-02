@@ -1,4 +1,6 @@
 import { Heart, Phone, Mail, MapPin, Clock, Shield, Award, Users } from "lucide-react";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   return (
@@ -49,9 +51,52 @@ const Footer = () => {
             <div className="space-y-3 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-primary" />
-                <a href="mailto:peddintikusuma@gmail.com" className="hover:text-primary transition-colors">
-                  peddintikusuma@gmail.com
-                </a>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button className="hover:text-primary transition-colors underline-offset-2 hover:underline">
+                      peddintikusuma@gmail.com
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Email Support</DialogTitle>
+                      <DialogDescription>
+                        Please mail your problem to the admin email below. Include as many details as possible so we can help quickly.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div className="p-3 rounded-md bg-accent text-foreground flex items-center justify-between">
+                        <span className="font-mono text-sm">peddintikusuma@gmail.com</span>
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => navigator.clipboard.writeText('peddintikusuma@gmail.com')}
+                        >
+                          Copy
+                        </Button>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          className="flex-1"
+                          onClick={() => {
+                            const subject = encodeURIComponent('Support Request from Healix');
+                            const body = encodeURIComponent('Hello,\n\nI would like assistance with the following problem:\n\n[Describe your issue here]\n\nThanks,');
+                            window.location.href = `mailto:peddintikusuma@gmail.com?subject=${subject}&body=${body}`;
+                          }}
+                        >
+                          Open mail app
+                        </Button>
+                        <Button
+                          className="flex-1"
+                          variant="outline"
+                          onClick={() => navigator.clipboard.writeText('Hello,\n\nI would like assistance with the following problem:\n\n[Describe your issue here]\n\nThanks,')}
+                        >
+                          Copy message template
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-primary" />
@@ -138,19 +183,7 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* Medical Disclaimer */}
-        <div className="mt-8 pt-6 border-t border-border/50 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h4 className="font-semibold text-foreground mb-2">Medical Disclaimer</h4>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              <strong>Healix</strong> is an AI-powered healthcare platform designed to connect patients with qualified medical professionals.
-              Our AI analysis provides preliminary health insights but is not a substitute for professional medical advice, diagnosis, or treatment.
-              Always consult with licensed healthcare providers for medical decisions. In case of emergency, call emergency services immediately.
-              All consultations are conducted by board-certified medical professionals.
-            </p>
-          </div>
-        </div>
-      </div>
+              </div>
     </footer>
   );
 };
