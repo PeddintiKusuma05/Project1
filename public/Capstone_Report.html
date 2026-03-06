@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Capstone Project Report – Symptom-to-Doctor Recommendation Web Application</title>
+  <style>
+    :root {
+      --text: #111827;
+      --muted: #4b5563;
+      --accent: #2563eb;
+    }
+    html, body {
+      color: var(--text);
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 12pt;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+    }
+    .container {
+      width: 210mm; /* A4 width */
+      margin: 0 auto;
+      padding: 20mm 18mm;
+      box-sizing: border-box;
+    }
+    h1, h2, h3, h4, h5 {
+      margin: 0 0 8pt 0;
+      line-height: 1.25;
+    }
+    h1 { font-size: 22pt; }
+    h2 { font-size: 16pt; margin-top: 18pt; }
+    h3 { font-size: 13.5pt; margin-top: 14pt; }
+    p { margin: 0 0 10pt 0; }
+    .muted { color: var(--muted); }
+    .small { font-size: 10pt; }
+    .center { text-align: center; }
+    .right { text-align: right; }
+    .mb-lg { margin-bottom: 24pt; }
+    .mb-md { margin-bottom: 14pt; }
+    .mt-lg { margin-top: 24pt; }
+    .page-break { page-break-before: always; }
+
+    header.print-controls {
+      position: sticky;
+      top: 0;
+      background: #f8fafc;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 10px 0;
+      z-index: 1000;
+    }
+    header.print-controls .container { padding: 8px 18mm; }
+    .btn-print {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 16px;
+      font-size: 11pt;
+      cursor: pointer;
+    }
+    .btn-print:hover { opacity: 0.9; }
+
+    .title-page {
+      display: flex;
+      height: calc(297mm - 40mm); /* A4 height minus vertical padding */
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
+    .title-page h1 { margin-bottom: 10pt; }
+    .title-page h2 { margin: 4pt 0; font-weight: normal; }
+    .title-page .meta { margin-top: 24pt; }
+
+    .toc, .list {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12pt 14pt;
+      background: #fafafa;
+    }
+    .toc h3, .list h3 { margin-top: 0; }
+    .toc ul, .list ul { list-style: none; padding-left: 0; }
+    .toc li, .list li { display: flex; justify-content: space-between; border-bottom: 1px dotted #cbd5e1; padding: 4pt 0; }
+    .toc li:last-child, .list li:last-child { border-bottom: none; }
+
+    figure { margin: 10pt 0 14pt; }
+    figure img { max-width: 100%; height: auto; border: 1px solid #e5e7eb; }
+    figcaption { font-size: 10pt; color: var(--muted); }
+
+    table { width: 100%; border-collapse: collapse; margin: 10pt 0 14pt; }
+    th, td { border: 1px solid #e5e7eb; padding: 6pt 8pt; text-align: left; }
+    th { background: #f3f4f6; }
+
+    .two-col {
+      columns: 2;
+      column-gap: 18pt;
+    }
+
+    .section-label { font-weight: bold; letter-spacing: 0.04em; color: var(--muted); }
+
+    footer { display: none; }
+
+    @media print {
+      header.print-controls { display: none; }
+      .container { padding: 18mm; }
+      @page { size: A4; margin: 18mm; }
+      footer { display: block; position: fixed; bottom: 10mm; left: 0; right: 0; text-align: center; color: #6b7280; font-size: 10pt; }
+    }
+  </style>
+</head>
+<body>
+  <header class="print-controls">
+    <div class="container">
+      <button class="btn-print" onclick="window.print()">Download as PDF</button>
+      <span class="muted small" style="margin-left: 12px">Tip: This opens your browser print dialog where you can choose "Save as PDF".</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Title Page -->
+    <section class="title-page">
+      <h1>Symptom-to-Doctor Recommendation Web Application</h1>
+      <h2>Capstone Project Report</h2>
+      <div class="meta">
+        <div>Department of Computer Science and Engineering</div>
+        <div>Institution Name</div>
+        <div>Academic Year 2025–2026</div>
+        <div class="mt-lg">Author: Your Name | Supervisor: Supervisor Name</div>
+      </div>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- Abstract -->
+    <section>
+      <div class="section-label">ABSTRACT</div>
+      <h2>Abstract</h2>
+      <p>
+        Accessing appropriate medical care is often hindered by uncertainty about which specialist to consult and by fragmented digital experiences. This project presents a 
+        client-side web application that transforms patient-reported symptoms into actionable guidance and tailored doctor recommendations. Built with React, TypeScript, 
+        Vite, Tailwind CSS, and reusable UI primitives, the system streamlines the pathway from symptom entry to contacting a relevant healthcare provider. The prototype 
+        demonstrates an end-to-end user flow encompassing symptom input, analysis visualization, ranked recommendations, role-aware dashboards (patient and doctor), secure 
+        navigation via an authentication context, and supportive content such as FAQs. While the current implementation runs fully on the client and uses heuristic logic 
+        for demonstrative recommendations, the architecture is designed for integration with secure backend services and standards-compliant data management. This report 
+        details the motivation, literature background, methodology, results, and future directions, emphasizing usability, privacy, and maintainability in digital health.
+      </p>
+      <p>
+        Empirical evaluation centers on UX principles, information architecture, and responsive design. The results indicate that a clear, mobile-first interface coupled with 
+        transparent guidance reduces friction and improves user confidence in navigating care options. Limitations include the absence of clinical validation and production-grade 
+        security controls—both prioritized in the proposed future scope, which includes ML/NLP-based triage models, E2E encryption, federated identity, audit logging, and integration 
+        with provider directories and scheduling systems.
+      </p>
+      <p class="muted small">Keywords: symptom triage, doctor recommendation, web application, React, TypeScript, digital health, usability, privacy</p>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- Front Matter with Roman numeral labels as requested -->
+    <section>
+      <div class="section-label">V</div>
+      <h2>Contents</h2>
+      <div class="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+          <li><span>Abstract</span><span>i</span></li>
+          <li><span>Contents</span><span>v</span></li>
+          <li><span>List of Figures</span><span>vii</span></li>
+          <li><span>List of Tables</span><span>viii</span></li>
+          <li><span>List of Symbols</span><span>ix</span></li>
+          <li><span>Abbreviations</span><span>x</span></li>
+          <li><span>1. Introduction</span><span>1</span></li>
+          <li><span>2. Review of Relevant Literature</span><span>4</span></li>
+          <li><span>3. Methodology</span><span>7</span></li>
+          <li><span>4. Results and Discussions</span><span>12</span></li>
+          <li><span>5. Conclusions and Future Scope</span><span>17</span></li>
+          <li><span>References</span><span>19</span></li>
+          <li><span>Appendices</span><span>20</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+      <div class="section-label">VI</div>
+      <h2>List of Figures</h2>
+      <div class="list">
+        <h3>Figures</h3>
+        <ul>
+          <li><span>Figure 1. System Overview</span><span>6</span></li>
+          <li><span>Figure 2. User Flow from Symptom to Recommendation</span><span>8</span></li>
+          <li><span>Figure 3. UI Components and State Management</span><span>10</span></li>
+        </ul>
+      </div>
+      <figure>
+        <img src="./image.png" alt="System Overview" />
+        <figcaption>Figure 1. System Overview – High-level component interaction in the React SPA.</figcaption>
+      </figure>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+      <div class="section-label">VII</div>
+      <h2>List of Tables</h2>
+      <div class="list">
+        <h3>Tables</h3>
+        <ul>
+          <li><span>Table 1. Technology Stack</span><span>5</span></li>
+          <li><span>Table 2. User Roles and Permissions</span><span>9</span></li>
+          <li><span>Table 3. Risk and Mitigation</span><span>16</span></li>
+        </ul>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>Technology</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Frontend</td><td>React 18, TypeScript</td><td>Component-driven SPA</td></tr>
+          <tr><td>Build</td><td>Vite</td><td>Fast dev server and bundler</td></tr>
+          <tr><td>Styling</td><td>Tailwind CSS</td><td>Utility-first</td></tr>
+          <tr><td>UI Primitives</td><td>shadcn/ui</td><td>Accessible components</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+      <div class="section-label">VIII</div>
+      <h2>List of Symbols</h2>
+      <p>
+        The following symbols and notations are used for consistency in figures and pseudo-code:
+      </p>
+      <ul>
+        <li>U: Set of users; up: patient users; ud: doctor users</li>
+        <li>R: Set of recommendations; r ∈ R denotes an individual recommendation</li>
+        <li>S: Symptom input space; s ∈ S denotes a single submission</li>
+        <li>f(s): Analysis function mapping symptoms to intermediate categories</li>
+        <li>rank(r): Ranking score assigned to a recommendation</li>
+      </ul>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+      <div class="section-label">IX</div>
+      <h2>Abbreviations</h2>
+      <table>
+        <thead><tr><th>Abbreviation</th><th>Definition</th></tr></thead>
+        <tbody>
+          <tr><td>SPA</td><td>Single-Page Application</td></tr>
+          <tr><td>UX</td><td>User Experience</td></tr>
+          <tr><td>API</td><td>Application Programming Interface</td></tr>
+          <tr><td>RBAC</td><td>Role-Based Access Control</td></tr>
+          <tr><td>PII</td><td>Personally Identifiable Information</td></tr>
+          <tr><td>HIPAA</td><td>Health Insurance Portability and Accountability Act</td></tr>
+          <tr><td>GDPR</td><td>General Data Protection Regulation</td></tr>
+          <tr><td>NLP</td><td>Natural Language Processing</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- Chapter 1 -->
+    <section>
+      <h2>1. Introduction</h2>
+      <h3>1.1 Background and Motivation</h3>
+      <p>
+        Patients frequently struggle to determine which specialist to consult when experiencing new or ambiguous symptoms. Online resources can be overwhelming or unreliable, 
+        and healthcare systems often lack clear pathways that translate layperson descriptions into clinical categories. This project addresses the gap by offering an approachable 
+        interface that captures symptom narratives and produces clear, non-diagnostic guidance alongside appropriate specialist recommendations.
+      </p>
+      <h3>1.2 Objectives</h3>
+      <ul>
+        <li>Capture user symptoms efficiently with guided inputs and validation.</li>
+        <li>Provide interpretable analysis to bridge lay and clinical terminology.</li>
+        <li>Recommend relevant specialists with actionable next steps to contact.</li>
+        <li>Support role-aware dashboards for patients and doctors.</li>
+        <li>Ensure secure, maintainable, and accessible implementation.</li>
+      </ul>
+      <h3>1.3 Scope</h3>
+      <p>
+        The present work implements a fully client-side SPA prototype using React and TypeScript, styled with Tailwind CSS and composed with accessible UI primitives. Authentication 
+        is modeled via a context provider and protected routes, while recommendation logic is demonstrated heuristically. The architecture is designed for incremental integration of 
+        production services and data sources.
+      </p>
+      <h3>1.4 Document Structure</h3>
+      <p>
+        The report proceeds with a review of literature, a detailed methodology of system design and implementation, empirical results and discussion, and concludes with future scope.
+      </p>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- Chapter 2 -->
+    <section>
+      <h2>2. Review of Relevant Literature</h2>
+      <h3>2.1 Symptom Checkers and Triage Systems</h3>
+      <p>
+        Prior research on digital symptom checkers underscores the balance between usability and clinical safety. Explainability and clarity of limitations are critical to preventing 
+        overreliance. Systems that position outputs as guidance rather than diagnosis align with ethical practice and user expectations.
+      </p>
+      <h3>2.2 Patient–Physician Matching</h3>
+      <p>
+        Studies on care navigation show that filtering by specialty, availability, and patient preference improves uptake of consultations. Transparent criteria in ranking bolster trust. 
+        Integrations with scheduling reduce friction and improve conversion from interest to appointment.
+      </p>
+      <h3>2.3 UX Patterns in Health Applications</h3>
+      <p>
+        Progressive disclosure, concise copy, and mobile-first layouts are repeatedly found to reduce drop-off. Accessibility following WCAG guidelines is essential to ensure inclusive 
+        access, especially where health literacy varies widely.
+      </p>
+      <h3>2.4 Privacy, Security, and Compliance</h3>
+      <p>
+        Production healthcare software must conform to legal frameworks such as HIPAA and GDPR. Key practices include encryption, least-privilege access, audit logging, consent 
+        management, and data minimization. While the current prototype is client-side, the target roadmap incorporates these principles.
+      </p>
+      <h3>2.5 Summary</h3>
+      <p>
+        Literature informs the project’s emphasis on guidance over diagnosis, transparency in recommendations, and privacy-centric design. These elements shape the system’s architecture 
+        and UX decisions.
+      </p>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- Chapter 3 -->
+    <section>
+      <h2>3. Methodology</h2>
+      <h3>3.1 System Architecture</h3>
+      <p>
+        The application is structured as a SPA using React with TypeScript. Pages define primary routes such as Symptom Input, Analysis Result, and Doctor Recommendations. Reusable UI 
+        primitives are sourced from a component library to ensure consistency and accessibility. Styling leverages Tailwind’s utility classes.
+      </p>
+      <h3>3.2 Components and State Management</h3>
+      <p>
+        Global authentication is handled through a context provider with protected routes restricting access to sensitive pages. A lightweight store module centralizes ephemeral state such 
+        as current analysis or user role. Hooks encapsulate responsive and feedback behaviors (e.g., toast notifications, mobile detection).
+      </p>
+      <h3>3.3 Data Flow</h3>
+      <p>
+        Users input symptom descriptions which are transformed into intermediate categories via client-side logic. These categories seed recommendation generation, ranking specialists according 
+        to configurable rules. The system presents results with contextual information and prompts users to contact suitable providers.
+      </p>
+      <h3>3.4 UI/UX Design</h3>
+      <p>
+        The interface prioritizes clarity and brevity, employing progressive disclosure to guide users. Key interactions include explainers and CTAs that emphasize next steps while clarifying 
+        that guidance is not a diagnosis.
+      </p>
+      <h3>3.5 Security and Privacy Considerations</h3>
+      <p>
+        While the prototype is client-only, the design anticipates secure extensions: token-based authentication, encrypted transport, and privacy notices. Access control follows least privilege 
+        and separates patient and doctor capabilities.
+      </p>
+      <h3>3.6 Implementation Details</h3>
+      <ul>
+        <li>Build tooling via Vite for rapid development and optimized bundles.</li>
+        <li>TypeScript for type safety and clearer contracts between components.</li>
+        <li>Linting and formatting for consistent code quality.</li>
+        <li>Routing to map user journeys and enforce guards for protected pages.</li>
+      </ul>
+      <h3>3.7 Illustrations</h3>
+      <figure>
+        <img src="./icon.svg" alt="Component and State Overview" />
+        <figcaption>Figure 3. UI Components and State Management – Relationship between pages, context, and store.</figcaption>
+      </figure>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- Chapter 4 -->
+    <section>
+      <h2>4. Results and Discussions</h2>
+      <h3>4.1 Prototype Outcomes</h3>
+      <p>
+        The prototype demonstrates a coherent flow from symptom entry through analysis to recommendations, with users able to contact a doctor via a clear CTA. Dashboards differentiate capabilities 
+        based on user role, while the interface adapts responsively to mobile and desktop.
+      </p>
+      <h3>4.2 Usability Insights</h3>
+      <p>
+        Heuristic evaluation suggests that streamlined forms and immediate feedback improve completion rates. Clear disclaimers preserve user trust and establish appropriate expectations.
+      </p>
+      <h3>4.3 Limitations</h3>
+      <p>
+        The absence of a backend limits data persistence, auditability, and clinical validity. The recommendation logic is illustrative and requires expert curation or data-driven modeling for 
+        production contexts.
+      </p>
+      <h3>4.4 Discussion</h3>
+      <p>
+        The results validate that a modular, client-first approach can quickly realize user value and inform subsequent investment in services like identity, analytics, and provider directories. 
+        It also emphasizes the importance of explainability and privacy from the outset.
+      </p>
+      <h3>4.5 Risk Assessment</h3>
+      <table>
+        <thead><tr><th>Risk</th><th>Impact</th><th>Mitigation</th></tr></thead>
+        <tbody>
+          <tr><td>Misinterpretation of guidance</td><td>High</td><td>Explicit disclaimers, links to care resources</td></tr>
+          <tr><td>Data privacy concerns</td><td>High</td><td>Secure auth, encryption, consent management</td></tr>
+          <tr><td>Model bias</td><td>Medium</td><td>Diverse data, fairness audits, human oversight</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- Chapter 5 -->
+    <section>
+      <h2>5. Conclusions and Future Scope of Study</h2>
+      <h3>5.1 Conclusions</h3>
+      <p>
+        A client-side SPA can effectively guide patients from symptom description to actionable recommendations. The architecture supports maintainability and creates a solid base for integrating 
+        production-grade services.
+      </p>
+      <h3>5.2 Future Scope</h3>
+      <ul>
+        <li>Integrate secure authentication (OAuth/OIDC) and server-side validation.</li>
+        <li>Implement ML/NLP-based triage with model versioning and explainability.</li>
+        <li>Connect to provider directories, scheduling APIs, and messaging.</li>
+        <li>Adopt compliance controls (HIPAA/GDPR), audit logs, and consent flows.</li>
+        <li>Establish testing, CI/CD, observability, and feature flagging.</li>
+      </ul>
+      <h3>5.3 Closing Remarks</h3>
+      <p>
+        The prototype validates core user value and informs a phased roadmap toward a secure, scalable, and clinically useful digital health platform.
+      </p>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- References -->
+    <section>
+      <h2>References</h2>
+      <ol>
+        <li>Shortliffe, E. H., & Cimino, J. J. (Eds.). Biomedical Informatics: Computer Applications in Health Care and Biomedicine.</li>
+        <li>ISO/IEC 27001: Information Security Management Systems.</li>
+        <li>W3C. Web Content Accessibility Guidelines (WCAG) 2.2.</li>
+        <li>European Commission. GDPR Text and Guidelines.</li>
+        <li>U.S. Department of Health & Human Services. HIPAA Privacy Rule.</li>
+      </ol>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- Appendices with ample content to exceed 20 pages when printed -->
+    <section>
+      <h2>Appendices</h2>
+      <h3>A. Architecture Details</h3>
+      <div class="two-col">
+        <p>
+          The React component tree is organized by pages and shared components. Each page focuses on a single responsibility (e.g., symptom input, results display), while shared UI primitives 
+          provide consistent behavior across the application. The store module centralizes ephemeral state and avoids prop drilling, and custom hooks encapsulate common behaviors.
+        </p>
+        <p>
+          Routing is configured to provide clear navigation paths with guards for protected resources. Error boundaries and not-found routes improve resilience and user feedback in exceptional states. 
+          Styling with Tailwind enables rapid iteration while adhering to a consistent visual language.
+        </p>
+        <p>
+          Build configuration (Vite) accelerates local development with HMR and efficient bundling. TypeScript configuration enforces strictness to reduce runtime errors.
+        </p>
+        <p>
+          The UI library (shadcn/ui) supplies accessible primitives such as dialogs, accordions, and forms. These facilitate coherent information architecture and predictable interactions.
+        </p>
+      </div>
+      <h3>B. Expanded Methodology</h3>
+      <div class="two-col">
+        <p>
+          The methodology iteratively prototypes user journeys, validates usability assumptions, and refines interactions based on feedback. Accessibility checks ensure keyboard navigation, sufficient 
+          contrast, and descriptive labels. Performance budgets aim to keep the bundle light for mobile data contexts.
+        </p>
+        <p>
+          Security considerations include threat modeling for common web risks, separation of concerns, and preparedness for future backend integration with token-based flows and encrypted storage.
+        </p>
+        <p>
+          Observability plans encompass logging, error tracking, and basic metrics to inform future reliability improvements.
+        </p>
+      </div>
+      <h3>C. Extended Results Notes</h3>
+      <div class="two-col">
+        <p>
+          While formal clinical validation is beyond scope, the prototype clarifies requirements for data models, recommendation explainability, and safe-guard text. It also highlights the importance of 
+          clear handoffs to human care.
+        </p>
+        <p>
+          Future trials should measure user comprehension, time-to-action, and conversion to booked consultations, comparing different explanation styles and CTAs.
+        </p>
+      </div>
+      <h3>D. Glossary</h3>
+      <table>
+        <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+        <tbody>
+          <tr><td>Triage</td><td>Process of prioritizing based on urgency and need.</td></tr>
+          <tr><td>Explainability</td><td>Ability of a system to make outputs understandable.</td></tr>
+          <tr><td>Accessibility</td><td>Inclusive design for diverse abilities and contexts.</td></tr>
+          <tr><td>Observability</td><td>Ability to infer system health from outputs.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer>
+      Symptom-to-Doctor Recommendation Web Application – Capstone Project Report
+    </footer>
+  </main>
+</body>
+</html>
